@@ -1,4 +1,4 @@
-@import './../variables';
+@import "./../variables";
 
 .pizza-block {
   text-align: center;
@@ -8,18 +8,18 @@
   }
 
   &__title {
-    font-size: 20px;
-    font-weight: 900;
-    letter-spacing: 0.03em;
     margin-bottom: 20px;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 0.03em;
   }
 
   &__selector {
     display: flex;
-    background-color: #f3f3f3;
-    border-radius: 10px;
     flex-direction: column;
     padding: 6px;
+    background-color: #f3f3f3;
+    border-radius: 10px;
 
     ul {
       display: flex;
@@ -30,16 +30,18 @@
       }
 
       li {
-        padding: 8px;
         flex: 1;
-        cursor: pointer;
+        padding: 8px;
         font-weight: 600;
         font-size: 14px;
-        @include noselect();
+        cursor: pointer;
+
+        @include noselect;
+
         &.active {
-          background: #ffffff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+          background: #fff;
           border-radius: 5px;
+          box-shadow: 0 2px 4px rgb(0 0 0 / 4%);
           cursor: auto;
         }
       }

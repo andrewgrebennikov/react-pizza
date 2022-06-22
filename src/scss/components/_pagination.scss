@@ -1,12 +1,12 @@
-@import './../variables';
+@import "./../variables";
 
 .pagination {
   margin: 40px 0 0;
 
   &__list {
     display: flex;
-    justify-content: center;
     gap: 16px;
+    justify-content: center;
   }
 
   &__item {
@@ -21,14 +21,14 @@
     justify-content: center;
     width: 30px;
     height: 30px;
+    font-weight: 600;
     border: 1px solid $orange;
     border-radius: 50%;
     cursor: pointer;
-    font-weight: 600;
 
     &_active {
-      background-color: $orange;
       color: white;
+      background-color: $orange;
     }
   }
 }

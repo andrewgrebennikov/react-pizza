@@ -1,15 +1,15 @@
-@import './../variables';
+@import "./../variables";
 
 .header {
-  border-bottom: 1px solid $gray-line;
   padding: 40px 0;
+  border-bottom: 1px solid $gray-line;
 
   .container {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
     gap: 32px;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__logo {
@@ -21,10 +21,10 @@
 
     h1 {
       color: #181818;
+      font-weight: 800;
       font-size: 24px;
       letter-spacing: 0.03em;
       text-transform: uppercase;
-      font-weight: 800;
     }
 
     p {

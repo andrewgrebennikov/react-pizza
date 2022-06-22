@@ -1,16 +1,18 @@
 * {
-  padding: 0;
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+  font-family: "Proxima Nova", Roboto, system-ui, Tahoma, sans-serif;
   list-style: none;
   outline: none;
-  font-family: 'Proxima Nova', Roboto, system-ui, Tahoma, sans-serif;
-  box-sizing: border-box;
 }
 
+/* stylelint-disable */
 html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
+/* stylelint-enable */
 
 body {
   -moz-osx-font-smoothing: grayscale;
@@ -44,6 +46,7 @@ a {
   text-decoration: none;
 }
 
+/* stylelint-disable */
 @mixin noselect {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -53,3 +56,4 @@ a {
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
 }
+/* stylelint-enable */
