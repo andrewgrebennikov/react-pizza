@@ -1,5 +1,7 @@
 import { useState } from "react";
 import classNames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveSort } from "../redux/slices/sortSlice";
 
 const sortList = [
   {
@@ -22,8 +24,10 @@ const sortList = [
   },
 ];
 
-const Sort = (props) => {
-  const { activeSort, setActiveSort } = props;
+const Sort = () => {
+  const dispatch = useDispatch();
+  const { activeSort } = useSelector((state) => state.sort);
+
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const { name: activeSortName } = activeSort;
 
@@ -32,7 +36,7 @@ const Sort = (props) => {
   };
 
   const handleSortClick = (id) => () => {
-    setActiveSort(sortList[id]);
+    dispatch(setActiveSort(sortList[id]));
     handlePopupToggle();
   };
 

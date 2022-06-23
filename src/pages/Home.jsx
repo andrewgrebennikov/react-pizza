@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import ReactPaginate from "react-paginate";
+import { useSelector } from "react-redux";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -7,20 +9,13 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
 
 const Home = () => {
+  const { activeCategory } = useSelector((state) => state.category);
+  const { activeSort } = useSelector((state) => state.sort);
+
   const [pizzas, setPizzas] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
 
-  const [activeCategory, setActiveCategory] = useState({
-    id: 0,
-    name: "Все",
-  });
-  const [activeSort, setActiveSort] = useState({
-    id: 0,
-    name: "популярности",
-    value: "rating",
-    order: "desc",
-  });
   const category = activeCategory.id ? `category=${activeCategory.id}` : "";
   const sort = `sortBy=${activeSort.value}&order=${activeSort.order}`;
 
@@ -37,12 +32,12 @@ const Home = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      `https://62ae32f7b735b6d16a40015f.mockapi.io/pizzas?page=${page}&limit=4&${category}&${sort}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPizzas(data);
+    axios
+      .get(
+        `https://62ae32f7b735b6d16a40015f.mockapi.io/pizzas?page=${page}&limit=4&${category}&${sort}`
+      )
+      .then((res) => {
+        setPizzas(res.data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
@@ -51,11 +46,8 @@ const Home = () => {
   return (
     <>
       <div className="content__top">
-        <Categories
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-        />
-        <Sort activeSort={activeSort} setActiveSort={setActiveSort} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
