@@ -4,7 +4,7 @@ const initialState = {
   activeSort: {
     id: 0,
     name: "популярности",
-    value: "rating",
+    sortBy: "rating",
     order: "desc",
   },
 };

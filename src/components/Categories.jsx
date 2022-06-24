@@ -32,10 +32,11 @@ const categories = [
 
 const Categories = () => {
   const dispatch = useDispatch();
+
   const { activeCategory } = useSelector((state) => state.category);
 
   const onCategoryClick = (id) => () => {
-    dispatch(setActiveCategory(categories[id]));
+    dispatch(setActiveCategory(id));
   };
 
   return (
@@ -46,7 +47,7 @@ const Categories = () => {
             <li
               key={id}
               className={classNames({
-                active: id === activeCategory.id,
+                active: id === activeCategory,
               })}
               onClick={onCategoryClick(id)}
             >

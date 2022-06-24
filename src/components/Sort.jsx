@@ -3,23 +3,23 @@ import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveSort } from "../redux/slices/sortSlice";
 
-const sortList = [
+export const sortList = [
   {
     id: 0,
     name: "популярности",
-    value: "rating",
+    sortBy: "rating",
     order: "desc",
   },
   {
     id: 1,
     name: "цене",
-    value: "price",
+    sortBy: "price",
     order: "desc",
   },
   {
     id: 2,
     name: "алфавиту",
-    value: "name",
+    sortBy: "name",
     order: "asc",
   },
 ];

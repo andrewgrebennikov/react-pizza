@@ -16,8 +16,8 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
 
-  const category = activeCategory.id ? `category=${activeCategory.id}` : "";
-  const sort = `sortBy=${activeSort.value}&order=${activeSort.order}`;
+  const category = activeCategory ? `category=${activeCategory}` : "";
+  const sort = `sortBy=${activeSort.sortBy}&order=${activeSort.order}`;
 
   const skeletonsList = [...Array(4)].map((_, index) => {
     return <Skeleton className="pizza-block" key={index} />;
@@ -70,6 +70,7 @@ const Home = () => {
           pageRangeDisplayed={4}
           pageCount={3}
           previousLabel="<"
+          forcePage={page - 1}
         />
       </div>
     </>
