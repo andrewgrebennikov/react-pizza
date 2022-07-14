@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveSort } from "../redux/slices/sortSlice";
@@ -26,7 +26,9 @@ export const sortList = [
 
 const Sort = () => {
   const dispatch = useDispatch();
+
   const { activeSort } = useSelector((state) => state.sort);
+  const sortPopupRef = useRef(null);
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const { name: activeSortName } = activeSort;
@@ -40,8 +42,22 @@ const Sort = () => {
     handlePopupToggle();
   };
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!event.path.includes(sortPopupRef.current)) {
+        setIsOpenPopup(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.body.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortPopupRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
