@@ -17,7 +17,7 @@ const typeNames = [
 const PizzaBlock = (props) => {
   const { id, imageUrl, name, price, sizes, types } = props;
   const [activeType, setActiveType] = useState(typeNames[0]);
-  const [activeSize, setActiveSize] = useState(0);
+  const [activeSize, setActiveSize] = useState(sizes[0]);
 
   const dispatch = useDispatch();
 
@@ -34,7 +34,7 @@ const PizzaBlock = (props) => {
   };
 
   const handleSizeClick = (id) => () => {
-    setActiveSize(id);
+    setActiveSize(sizes[id]);
   };
 
   const handleAddPizzaClick = () => {
@@ -83,7 +83,7 @@ const PizzaBlock = (props) => {
               <li
                 key={size}
                 className={classNames({
-                  active: activeSize === index,
+                  active: activeSize === sizes[index],
                 })}
                 onClick={handleSizeClick(index)}
               >

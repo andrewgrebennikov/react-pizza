@@ -1,5 +1,8 @@
 import * as React from "react";
 import classNames from "classnames";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setActiveCategory } from "../redux/slices/categorySlice";
 
 const categories = [
   {
@@ -28,16 +31,13 @@ const categories = [
   },
 ];
 
-const Categories = ({
-  activeCategory,
-  setActiveCategory,
-  setSearchParams,
-  setActivePage,
-}) => {
+const Categories = () => {
+  const dispatch = useDispatch();
+
+  const { activeCategory } = useSelector((state) => state.category);
+
   const onCategoryClick = (id) => () => {
-    setActiveCategory(id);
-    setActivePage(1);
-    setSearchParams({ category: id });
+    dispatch(setActiveCategory(id));
   };
 
   return (
@@ -48,7 +48,7 @@ const Categories = ({
             <li
               key={id}
               className={classNames({
-                active: id === Number(activeCategory),
+                active: id === activeCategory,
               })}
               onClick={onCategoryClick(id)}
             >
