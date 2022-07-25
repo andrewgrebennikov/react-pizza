@@ -1,8 +1,6 @@
 import * as React from "react";
+import { useSearchParams } from "react-router-dom";
 import classNames from "classnames";
-import { useSelector, useDispatch } from "react-redux";
-
-import { setActiveCategory } from "../redux/slices/categorySlice";
 
 const categories = [
   {
@@ -32,12 +30,17 @@ const categories = [
 ];
 
 const Categories = () => {
-  const dispatch = useDispatch();
-
-  const { activeCategory } = useSelector((state) => state.category);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeCategory = Number(searchParams.get("category"));
 
   const onCategoryClick = (id) => () => {
-    dispatch(setActiveCategory(id));
+    if (id !== 0) {
+      setSearchParams({
+        category: id,
+      });
+    } else {
+      setSearchParams();
+    }
   };
 
   return (

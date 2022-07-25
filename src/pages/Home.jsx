@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,12 +12,13 @@ import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { items: pizzas, status } = useSelector((state) => state.pizzas);
-  const { activeCategory } = useSelector((state) => state.category);
   const { activeSort } = useSelector((state) => state.sort);
 
-  const [activePage, setActivePage] = useState(1);
+  const activeCategory = Number(searchParams.get("category"));
+  const activePage = Number(searchParams.get("page")) || 1;
 
   const page = `page=${activePage}`;
   const category = activeCategory ? `&category=${activeCategory}` : "";
@@ -32,7 +34,25 @@ const Home = () => {
     });
 
   const handlePageClick = (event) => {
-    setActivePage(event.selected + 1);
+    const page = event.selected;
+    const isNotFirstPage = page + 1 !== 1;
+
+    if (activeCategory && isNotFirstPage) {
+      setSearchParams({
+        category: activeCategory,
+        page: page + 1,
+      });
+    } else if (isNotFirstPage) {
+      setSearchParams({
+        page: page + 1,
+      });
+    } else if (activeCategory !== 0) {
+      setSearchParams({
+        category: activeCategory,
+      });
+    } else {
+      setSearchParams();
+    }
   };
 
   const getPizzas = useCallback(() => {
