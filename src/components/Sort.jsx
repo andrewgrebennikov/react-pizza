@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { useDispatch, useSelector } from "react-redux";
-
-import { setActiveSort } from "../redux/slices/sortSlice";
+import { useSearchParams } from "react-router-dom";
 
 export const sortList = [
   {
@@ -26,21 +24,65 @@ export const sortList = [
 ];
 
 const Sort = () => {
-  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { activeSort } = useSelector((state) => state.sort);
+  const activePage = Number(searchParams.get("page"));
+  const activeCategory = Number(searchParams.get("category"));
+  const activeSort = searchParams.get("sortBy") || "rating";
+
+  const sort = sortList.find((sortItem) => sortItem.sortBy === activeSort);
+
   const sortPopupRef = useRef(null);
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
-  const { name: activeSortName } = activeSort;
 
   const handlePopupToggle = () => {
     setIsOpenPopup(!isOpenPopup);
   };
 
   const handleSortClick = (id) => () => {
-    dispatch(setActiveSort(sortList[id]));
     handlePopupToggle();
+
+    if (activePage && activeCategory && id) {
+      setSearchParams({
+        page: activePage,
+        category: activeCategory,
+        sortBy: sortList[id].sortBy,
+        order: sortList[id].order,
+      });
+    } else if (activePage && activeCategory) {
+      setSearchParams({
+        page: activePage,
+        category: activeCategory,
+      });
+    } else if (activePage && id) {
+      setSearchParams({
+        page: activePage,
+        sortBy: sortList[id].sortBy,
+        order: sortList[id].order,
+      });
+    } else if (activeCategory && id) {
+      setSearchParams({
+        category: activeCategory,
+        sortBy: sortList[id].sortBy,
+        order: sortList[id].order,
+      });
+    } else if (activePage) {
+      setSearchParams({
+        page: activePage,
+      });
+    } else if (activeCategory) {
+      setSearchParams({
+        category: activeCategory,
+      });
+    } else if (id) {
+      setSearchParams({
+        sortBy: sortList[id].sortBy,
+        order: sortList[id].order,
+      });
+    } else {
+      setSearchParams();
+    }
   };
 
   useEffect(() => {
@@ -73,7 +115,7 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={handlePopupToggle}>{activeSortName}</span>
+        <span onClick={handlePopupToggle}>{sort.name}</span>
       </div>
       {isOpenPopup && (
         <div className="sort__popup">
@@ -83,7 +125,7 @@ const Sort = () => {
                 <li
                   key={id}
                   className={classNames({
-                    active: activeSort.id === id,
+                    active: sort.id === id,
                   })}
                   onClick={handleSortClick(id)}
                 >

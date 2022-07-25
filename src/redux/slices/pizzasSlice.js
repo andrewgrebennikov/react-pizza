@@ -3,8 +3,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchPizzas = createAsyncThunk(
   "pizzas/fetchPizzas",
-  async ({ page, category, sort }) => {
-    const { data } = await api.get(`pizzas?${page}&limit=4${category}${sort}`);
+  async ({ page, category, sort, order }) => {
+    const { data } = await api.get(
+      `pizzas?${page}&limit=4${category}${sort}${order}`
+    );
     return data;
   }
 );

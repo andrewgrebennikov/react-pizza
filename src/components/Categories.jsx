@@ -31,10 +31,35 @@ const categories = [
 
 const Categories = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const activePage = Number(searchParams.get("page"));
   const activeCategory = Number(searchParams.get("category"));
+  const activeSort = searchParams.get("sortBy");
+  const activeOrder = searchParams.get("order");
 
   const onCategoryClick = (id) => () => {
-    if (id !== 0) {
+    if (activePage && id && activeSort && activeOrder) {
+      setSearchParams({
+        category: id,
+        sortBy: activeSort,
+        order: activeOrder,
+      });
+    } else if (activePage && activeSort && activeOrder) {
+      setSearchParams({
+        sortBy: activeSort,
+        order: activeOrder,
+      });
+    } else if (id && activeSort && activeOrder) {
+      setSearchParams({
+        category: id,
+        sortBy: activeSort,
+        order: activeOrder,
+      });
+    } else if (activeSort && activeOrder) {
+      setSearchParams({
+        sortBy: activeSort,
+        order: activeOrder,
+      });
+    } else if (id) {
       setSearchParams({
         category: id,
       });

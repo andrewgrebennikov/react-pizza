@@ -15,14 +15,16 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { items: pizzas, status } = useSelector((state) => state.pizzas);
-  const { activeSort } = useSelector((state) => state.sort);
 
-  const activeCategory = Number(searchParams.get("category"));
   const activePage = Number(searchParams.get("page")) || 1;
+  const activeCategory = Number(searchParams.get("category"));
+  const activeSort = searchParams.get("sortBy") || "rating";
+  const activeOrder = searchParams.get("order") || "desc";
 
   const page = `page=${activePage}`;
   const category = activeCategory ? `&category=${activeCategory}` : "";
-  const sort = `&sortBy=${activeSort.sortBy}&order=${activeSort.order}`;
+  const sort = `&sortBy=${activeSort}`;
+  const order = `&order=${activeOrder}`;
 
   const skeletonsList = [...Array(4)].map((_, index) => {
     return <Skeleton className="pizza-block" key={index} />;
@@ -37,16 +39,40 @@ const Home = () => {
     const page = event.selected;
     const isNotFirstPage = page + 1 !== 1;
 
-    if (activeCategory && isNotFirstPage) {
+    if (isNotFirstPage && activeCategory && activeSort !== "rating") {
+      setSearchParams({
+        page: page + 1,
+        category: activeCategory,
+        sortBy: activeSort,
+        order: activeOrder,
+      });
+    } else if (isNotFirstPage && activeCategory) {
+      setSearchParams({
+        page: page + 1,
+        category: activeCategory,
+      });
+    } else if (isNotFirstPage && activeSort !== "rating") {
+      setSearchParams({
+        page: page + 1,
+        sortBy: activeSort,
+        order: activeOrder,
+      });
+    } else if (activeCategory && activeSort !== "rating") {
       setSearchParams({
         category: activeCategory,
-        page: page + 1,
+        sortBy: activeSort,
+        order: activeOrder,
       });
     } else if (isNotFirstPage) {
       setSearchParams({
         page: page + 1,
       });
-    } else if (activeCategory !== 0) {
+    } else if (activeSort !== "rating") {
+      setSearchParams({
+        sortBy: activeSort,
+        order: activeOrder,
+      });
+    } else if (activeCategory) {
       setSearchParams({
         category: activeCategory,
       });
@@ -61,10 +87,11 @@ const Home = () => {
         page,
         category,
         sort,
+        order,
       })
     );
     window.scrollTo(0, 0);
-  }, [category, dispatch, page, sort]);
+  }, [category, dispatch, page, sort, order]);
 
   useEffect(() => {
     getPizzas();
